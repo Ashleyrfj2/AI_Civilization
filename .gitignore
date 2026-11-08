@@ -1,0 +1,47 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.eggs/
+.venv/
+venv/
+.env
+dist/
+build/
+
+# Databases / local state
+*.db
+*.db-journal
+*.sqlite
+*.sqlite3
+data/*.db
+data/*.jsonl
+
+# Secrets
+.env.local
+
+# pytest / coverage
+.pytest_cache/
+.coverage
+htmlcov/
+coverage.xml
+
+# Ruff / mypy
+.ruff_cache/
+.mypy_cache/
+
+# macOS / Windows
+.DS_Store
+Thumbs.db
+
+# Editors
+.vscode/
+.idea/
+*.swp
+
+# Godot generated
+.godot/
+godot/.godot/
+*.import
+export_presets.cfg
+*.translation

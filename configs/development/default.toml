@@ -1,0 +1,6 @@
+[simulation]
+experiment_name = "phase0-smoke"
+seed = 42
+ticks = 5
+db_path = "./data/dev.db"
+world_name = "empty-world"

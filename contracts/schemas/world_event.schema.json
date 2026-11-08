@@ -1,0 +1,11 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "WorldEvent",
+  "type": "object",
+  "required": ["tick", "kind", "payload"],
+  "properties": {
+    "tick": { "type": "integer", "minimum": 0 },
+    "kind": { "type": "string", "minLength": 1 },
+    "payload": { "type": "object" }
+  }
+}
