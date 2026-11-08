@@ -42,9 +42,7 @@ def load_config(path: str | os.PathLike[str] | None = None) -> SimulationConfig:
         return local_value if local_value is not None else fallback
 
     return SimulationConfig(
-        experiment_name=setting(
-            "AICIV_EXPERIMENT", data.get("experiment_name", "phase0-smoke")
-        ),
+        experiment_name=setting("AICIV_EXPERIMENT", data.get("experiment_name", "phase0-smoke")),
         seed=setting("AICIV_SEED", data.get("seed", 42)),
         ticks=data.get("ticks", 5),
         db_path=setting("AICIV_DB_PATH", data.get("db_path", "./data/dev.db")),

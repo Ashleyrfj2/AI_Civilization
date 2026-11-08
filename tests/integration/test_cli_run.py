@@ -31,7 +31,8 @@ def test_cli_overrides_exported_env_dotenv_and_toml(tmp_path, monkeypatch, capsy
     monkeypatch.setenv("AICIV_SEED", "23")
     monkeypatch.setenv("AICIV_DB_PATH", "./exported.db")
 
-    assert main(["run", "--config", str(toml), "--ticks", "4", "--seed", "41", "--db", ":memory:"]) == 0
+    flags = ["run", "--config", str(toml), "--ticks", "4", "--seed", "41", "--db", ":memory:"]
+    assert main(flags) == 0
     summary = json.loads(capsys.readouterr().out)
     assert summary["seed"] == 41
     assert summary["ticks"] == 4
