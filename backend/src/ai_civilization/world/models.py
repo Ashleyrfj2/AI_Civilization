@@ -2,7 +2,6 @@
 
 from __future__ import annotations
 
-from datetime import UTC, datetime
 from typing import Any
 
 from pydantic import BaseModel, Field
@@ -18,9 +17,11 @@ class WorldState(BaseModel):
 
 
 class WorldEvent(BaseModel):
-    """A recorded state-transition event."""
+    """A deterministic state-transition event.
+
+    Real-world timestamps belong in telemetry, not simulation state.
+    """
 
     tick: int = Field(ge=0)
     kind: str = Field(min_length=1)
     payload: dict[str, Any] = Field(default_factory=dict)
-    created_at: str = Field(default_factory=lambda: datetime.now(UTC).isoformat())

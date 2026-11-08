@@ -6,6 +6,7 @@ import os
 import tomllib
 from pathlib import Path
 
+from dotenv import dotenv_values
 from pydantic import BaseModel, Field
 
 
@@ -20,16 +21,32 @@ class SimulationConfig(BaseModel):
 
 
 def load_config(path: str | os.PathLike[str] | None = None) -> SimulationConfig:
-    """Load config from a TOML file with env overrides, else defaults."""
+    """Load TOML, then overlay .env and exported environment settings.
+
+    Precedence (highest first): CLI overrides applied by the caller,
+    exported environment, .env in the working directory, TOML, defaults.
+    Reading .env does not modify os.environ.
+    """
     data: dict = {}
     if path is not None:
         with open(Path(path), "rb") as f:
             raw = tomllib.load(f)
         data = raw.get("simulation", raw)
+
+    local_values = dotenv_values(Path.cwd() / ".env")
+
+    def setting(key: str, fallback: str | int) -> str | int:
+        if key in os.environ:
+            return os.environ[key]
+        local_value = local_values.get(key)
+        return local_value if local_value is not None else fallback
+
     return SimulationConfig(
-        experiment_name=os.getenv("AICIV_EXPERIMENT", data.get("experiment_name", "phase0-smoke")),
-        seed=int(os.getenv("AICIV_SEED", data.get("seed", 42))),
-        ticks=int(data.get("ticks", 5)),
-        db_path=os.getenv("AICIV_DB_PATH", data.get("db_path", "./data/dev.db")),
+        experiment_name=setting(
+            "AICIV_EXPERIMENT", data.get("experiment_name", "phase0-smoke")
+        ),
+        seed=setting("AICIV_SEED", data.get("seed", 42)),
+        ticks=data.get("ticks", 5),
+        db_path=setting("AICIV_DB_PATH", data.get("db_path", "./data/dev.db")),
         world_name=data.get("world_name", "empty-world"),
     )
