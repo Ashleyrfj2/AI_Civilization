@@ -1,0 +1,12 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "PhysicsOutcome",
+  "type": "object",
+  "required": ["case_id", "passed", "measurements"],
+  "properties": {
+    "case_id": { "type": "string", "minLength": 1 },
+    "passed": { "type": "boolean" },
+    "measurements": { "type": "object" },
+    "notes": { "type": "string" }
+  }
+}
